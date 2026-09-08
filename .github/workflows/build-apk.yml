@@ -41,18 +41,20 @@ jobs:
 
       - name: Build Release APK
         run: |
-          flutter build apk --release \
+          flutter build apk --release --no-tree-shake-icons \
             --dart-define=API_BASE_URL=https://backend-ce2c.onrender.com \
-            --dart-define=WS_URL=wss://backend-ce2c.onrender.com
+            --dart-define=WS_URL=wss://backend-ce2c.onrender.com 2>&1 | tee build.log
 
-      - name: Upload Logs on Failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-failure-logs
-          path: build/app/outputs/
-          if-no-files-found: warn
-          retention-days: 7
+      - name: Push Build Log to Branch
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B build-log
+          tail -n 300 build.log > latest_error.txt || true
+          git add latest_error.txt
+          git commit -m "chore: latest build log [skip ci]" || true
+          git push origin build-log --force || true
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
