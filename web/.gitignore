@@ -1,0 +1,6 @@
+# Flutter Web
+.dart_tool/
+build/
+.DS_Store
+Thumbs.db
+desktop.ini
