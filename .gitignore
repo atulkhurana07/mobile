@@ -27,6 +27,7 @@ local.properties
 key.properties
 *.keystore
 *.jks
+*.apk
 
 # IntelliJ related
 *.iml
