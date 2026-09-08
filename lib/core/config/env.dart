@@ -16,23 +16,11 @@ class Env {
   }
 
   static String get defaultHost {
-    if (kIsWeb) return 'http://127.0.0.1:8000';
-    try {
-      if (Platform.isAndroid) return 'http://10.0.2.2:8000';
-      return 'http://127.0.0.1:8000';
-    } catch (_) {
-      return 'http://127.0.0.1:8000';
-    }
+    return 'https://backend-ce2c.onrender.com';
   }
 
   static String get defaultWsHost {
-    if (kIsWeb) return 'ws://127.0.0.1:8000';
-    try {
-      if (Platform.isAndroid) return 'ws://10.0.2.2:8000';
-      return 'ws://127.0.0.1:8000';
-    } catch (_) {
-      return 'ws://127.0.0.1:8000';
-    }
+    return 'wss://backend-ce2c.onrender.com';
   }
 
   static String get apiBaseUrl {
