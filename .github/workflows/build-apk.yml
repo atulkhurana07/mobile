@@ -14,6 +14,8 @@ jobs:
   build:
     name: Build Android APK
     runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=1024m"
 
     steps:
       - name: Checkout Repository
@@ -43,6 +45,15 @@ jobs:
             --dart-define=API_BASE_URL=https://backend-ce2c.onrender.com \
             --dart-define=WS_URL=wss://backend-ce2c.onrender.com
 
+      - name: Upload Logs on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-failure-logs
+          path: build/app/outputs/
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -66,5 +77,7 @@ jobs:
             ### Download APK:
             Download `app-release.apk` below and install on your Android device.
           files: build/app/outputs/flutter-apk/app-release.apk
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

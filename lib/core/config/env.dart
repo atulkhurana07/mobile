@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Env {
   // Stored runtime override (can be changed dynamically in terminal settings)
